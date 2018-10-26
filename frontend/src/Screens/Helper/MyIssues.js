@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, FlatList, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, FlatList } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Body, Left, Right, Thumbnail, Button, Icon } from "native-base";
 import { material, human } from 'react-native-typography';
 import Ionicons from "react-native-vector-icons/Ionicons";
-import call from 'react-native-phone-call'
-import axios from "axios";
 
-import {getData, postData} from "../../Secondary/Methods";
-import {AddHelp, getAllHelp} from "../../Secondary/ServerEndpoints";
+import {deleteById, myIssuesURL} from "../../Secondary/ServerEndpoints";
+import axios from "axios/index";
 
-export default class Feed extends Component {
+
+
+export default class MyIssues extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            refreshing: false,
-            feedList:[
-
+            feedList: [
+                {issueId: 123, title: "Need help in ceg", location: "Alwarpet, Chennai", color: "red", category: "Food", timestamp: "12/12/2017 8:30 AM", status: "Very Urgent", description:"We need food at the gandhi mandapam due to the floods"},
+                {issueId: 124, title: "Need help in ceg", location: "Alwarpet, Chennai", color: "yellow", category: "Food", timestamp: "12/12/2017 8:30 AM", status: "Urgent", description:"We need food at the gandhi mandapam due to the floods"},
+                {issueId: 143, title: "Need help in ceg", location: "Guindy", color: "red", category: "red", timestamp: "12/12/2017 8:30 AM", status: "Urgent", description:"We need food at the gandhi mandapam due to the floods"}
             ]
+
         };
     }
 
     static navigationOptions = ({ navigation  }) => ({
-            title: "Issue Feed",
+            title: "Survivor Call",
             headerTransparent: false,
             headerTintColor: 'black',
             headerStyle: {
@@ -31,34 +33,27 @@ export default class Feed extends Component {
         }
     );
 
-    _onRefresh = () => {
-        this.setState({refreshing: true});
-        axios.get(getAllHelp).then((response) => {
+
+    componentDidMount(){
+        axios.get(myIssuesURL+"1234567890").then((response) => {
             console.log(response.data);
             this.setState({feedList: response.data});
         });
-    };
+    }
 
-    componentDidMount(){
-            axios.get(getAllHelp).then((response) => {
+    closeIssue(issueId){
+        axios.get(deleteById+issueId).then((response) => {
+            console.log(response.data);
+        }).then(()=>{
+            axios.get(myIssuesURL+"1234567890").then((response) => {
                 console.log(response.data);
                 this.setState({feedList: response.data});
-            });
-    }
-
-    call(number){
-        call({number:number , prompt: false}).catch(console.error)
+                alert("Successfully closed your issue!");
+        });
+    });
     }
 
 
-    getStatus(status){
-        if(status === 'true'){
-            return "Verified"
-        }
-        else{
-            return "Not Verified"
-        }
-    }
 
     _generateFeed(item){
         return(
@@ -66,9 +61,9 @@ export default class Feed extends Component {
                 <CardItem>
                     <Left>
                         <Body>
-                        <Text style={{fontSize: 20}}>{item.probTitle}</Text>
-                        <Text note>{item.probType}</Text>
-                        <Text note>{item.time}</Text>
+                        <Text style={{fontSize: 20}}>{this.state.feedList[0].title}</Text>
+                        <Text note>{this.state.feedList[0].category}</Text>
+                        <Text note>{this.state.feedList[0].timestamp}</Text>
                         </Body>
                     </Left>
                     <Thumbnail source={{uri: 'https://cdn3.iconfinder.com/data/icons/medical-and-heathcare/512/medical_healthcare_medecine_2-512.png'}}/>
@@ -76,7 +71,7 @@ export default class Feed extends Component {
                 <CardItem>
                     <Body>
                     <Text style={{fontSize:15}}>
-                        {item.probDesc}
+                        {this.state.feedList[0].description}
                     </Text>
                     </Body>
                 </CardItem>
@@ -84,15 +79,11 @@ export default class Feed extends Component {
                     <Left>
                         <Button transparent textStyle={{color: '#87838B'}}>
                             <Ionicons name="md-compass" size={25}/>
-                            <Text style={{marginLeft: 2}}>{item.location}</Text>
+                            <Text style={{marginLeft: 2}}>{this.state.feedList[0].location}</Text>
                         </Button>
-                        <Button transparent textStyle={{color: '#87838B'}}>
-                            <Ionicons name="md-information-circle" size={25} color="red" />
-                            <Text style={{marginLeft: 5}}>{this.getStatus(item.status)}</Text>
-                        </Button>
-                        <Button transparent textStyle={{color: '#87838B'}} >
-                            <Ionicons name="md-call" size={25}/>
-                            <Text style={{marginLeft: 5}} onPress={() => this.call(item.contact) }>Call</Text>
+                        <Button transparent textStyle={{color: '#87838B'}} onPress={() => this.closeIssue(item._id) }>
+                            <Ionicons name="md-close" size={25}/>
+                            <Text style={{marginLeft: 5}}>Close Issue</Text>
                         </Button>
                     </Left>
                 </CardItem>
@@ -102,14 +93,7 @@ export default class Feed extends Component {
 
     render() {
         return (
-            <ScrollView
-                refreshControl={
-                    <RefreshControl
-                        refreshing={this.state.refreshing}
-                        onRefresh={this._onRefresh}
-                    />
-                }
-            >
+            <ScrollView>
                 <Content padder>
                     <FlatList data={this.state.feedList}
                               renderItem={({item, index}) => this._generateFeed(item) }/>
