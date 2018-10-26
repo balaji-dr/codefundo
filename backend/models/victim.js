@@ -29,7 +29,8 @@ const VictimSchema = new Schema({
     },
     email: {
         type: String
-    }
+    },
+    time: String
 });
 
 const Victim = mongoose.model('help', VictimSchema);

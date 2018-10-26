@@ -89,6 +89,12 @@ router.get('/getHelpByMobile/:id',function(req,res,next){
     });
 });
 
+router.get('/getHelp/:cat/:loc',function(req,res,next){
+    //console.log("gettttt");
+    Victim.find({probType:req.params.cat,location:req.params.loc}).then(function(details){
+        res.send(details);
+    });
+});
 
 router.get('/deleteById/:id',function(req,res,next){
     Victim.findByIdAndDelete({_id:req.params.id}).then(function(details){
@@ -106,7 +112,25 @@ router.post('/addHelp',async function(req,res,next){
 	let documents = { 'documents': [
 		{'id': '1', 'language': 'en', 'text': req.body.probDesc}
 	]}
-	
+    var currentTime = Date();
+    var len = currentTime.length;
+    var flag = true;
+    var ctime="";
+    for(var i=0;i<len;i++){
+        if(flag){
+            if(currentTime[i]==' '){
+                flag=false;
+            }
+        }else{
+            if(currentTime[i]==' '){ctime+=currentTime[i]}
+            else if(currentTime[i]=='G'){
+                break;
+            }
+            else{
+                ctime+=currentTime[i];
+            }
+        }
+    }
     await get_sentiments(documents);
     setTimeout(function(){ 
         Victim.create({
@@ -118,6 +142,7 @@ router.post('/addHelp',async function(req,res,next){
             victimName:req.body.victimName,
             location:req.body.location,
             contact:req.body.contact,
+            time:ctime,
             email:req.body.email
             }).then(function(details){
                 res.send(details);
