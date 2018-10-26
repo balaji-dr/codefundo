@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, Image, Dimensions, AsyncStorage} from 'react-nat
 import { Container, Header, Content, Card, CardItem, Body } from "native-base";
 import { material, human } from 'react-native-typography';
 import {getData} from "../Secondary/Methods";
+import SplashScreen from 'react-native-splash-screen'
 
 let deviceHeight = Dimensions.get('window').height;
 let deviceWidth = Dimensions.get('window').width;
@@ -47,7 +48,7 @@ export default class Home extends Component {
         this.isSignedIn()
             .then(response => this.setState({ signedIn: response, checkedSignIn: true }))
             .catch(error => alert("Oops! Something broked"));
-
+        SplashScreen.hide();
         // getData("http://40.118.4.105:4002/surviva/getHelp?sort_by=desc(emotion)")
 
     }

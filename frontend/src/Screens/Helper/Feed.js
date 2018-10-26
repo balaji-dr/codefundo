@@ -37,6 +37,8 @@ export default class Feed extends Component {
             console.log(response.data);
             this.setState({feedList: response.data});
         });
+        this.setState({refreshing: false});
+
     };
 
     componentDidMount(){
@@ -90,9 +92,9 @@ export default class Feed extends Component {
                             <Ionicons name="md-information-circle" size={25} color="red" />
                             <Text style={{marginLeft: 5}}>{this.getStatus(item.status)}</Text>
                         </Button>
-                        <Button transparent textStyle={{color: '#87838B'}} >
+                        <Button transparent textStyle={{color: '#87838B'}} onPress={() => this.call(item.contact) }>
                             <Ionicons name="md-call" size={25}/>
-                            <Text style={{marginLeft: 5}} onPress={() => this.call(item.contact) }>Call</Text>
+                            <Text style={{marginLeft: 5}} >Call</Text>
                         </Button>
                     </Left>
                 </CardItem>

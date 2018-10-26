@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, ActivityIndicator } from 'react-native';
 import {Button} from "native-base";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { material, human } from 'react-native-typography';
@@ -22,7 +22,8 @@ export default class HelpForm extends Component {
             location: '',
             contact:'1234567890',
             victimName:'Admin Tester',
-            status: 'true'
+            status: 'true',
+            animating: false
         };
     }
 
@@ -41,13 +42,16 @@ export default class HelpForm extends Component {
             alert("empty fields");
         }
         else{
+            this.setState({animating: true});
             axios.post(AddHelp,this.state).then((response) => {
                 console.log(response.data);
                 if (response.data.status === 'true'){
+                    this.setState({animating: false});
                     alert("Successfully posted the Issue.");
                     this.props.navigation.navigate("Home");
                 }
                 else{
+                    this.setState({animating: false});
                     alert("Unsuccessful in connecting the server.");
                 }
             })
@@ -93,6 +97,7 @@ export default class HelpForm extends Component {
                     <Option value = "human_resource">Human Resource</Option>
 
                 </Select>
+                    <ActivityIndicator size="large" color="#0000ff" animating={this.state.animating}/>
                     <Text style={[human.footnote,{fontSize:19, marginTop: 10}]}>Location</Text>
                     <TextInput
                         style={{height: 40, borderColor: 'gray', borderWidth: 1}}
