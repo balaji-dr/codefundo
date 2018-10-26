@@ -11,6 +11,7 @@ Considering a scenario where some one trapped and wants to reach out to the sear
 - Chat system helps to locate the victim
 - Online mode to ask for help
 - Offline operation for search and rescue
+- Emotion recognition to prioritize the problems
 - Have track of resolved issues/ ongoing issues in all affected areas
 
 ## Usage instructions
