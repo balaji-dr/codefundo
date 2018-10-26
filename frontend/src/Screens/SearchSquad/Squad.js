@@ -24,7 +24,8 @@ export default class Squad extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Coming Soon</Text>
+                <Text>This module can be accessed by the people who are given permission to search the area. By enabling the mobile hotspot,
+                    they can search and communicate with the victims in the area.</Text>
             </View>
         );
     }

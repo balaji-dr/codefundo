@@ -71,7 +71,7 @@ export default class Feed extends Component {
                         <Text note>{item.time}</Text>
                         </Body>
                     </Left>
-                    <Thumbnail source={{uri: 'https://cdn3.iconfinder.com/data/icons/medical-and-heathcare/512/medical_healthcare_medecine_2-512.png'}}/>
+                    <Thumbnail source={{uri: 'https://png.pngtree.com/svg/20161124/flood_and_water_logging_972327.png'}}/>
                 </CardItem>
                 <CardItem>
                     <Body>

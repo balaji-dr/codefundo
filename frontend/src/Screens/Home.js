@@ -112,7 +112,7 @@ export default class Home extends Component {
 
                     <View style={{flexDirection: 'row', width: 200}}>
                         <Card style={{width: 166.5}}>
-                            <CardItem button onPress={() => this.props.navigation.navigate("Squad")} style={{backgroundColor: "#0CA200"}}>
+                            <CardItem button onPress={() => this.props.navigation.navigate("Victim")} style={{backgroundColor: "#0CA200"}}>
                                 <Body>
                                 <Image source={{uri: "https://www.ukfiretraining.com/uploads/images/icons/unique-evacuation-issues.png"}}
                                        style={{width: 150, height: 150, alignSelf: 'center'}} />

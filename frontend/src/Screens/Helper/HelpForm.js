@@ -74,6 +74,7 @@ export default class HelpForm extends Component {
                     onChangeText={(probDesc) =>this.setState({probDesc})}
                     multiline={true}
                     numberOfLines={4}
+                    autoCapitalize = 'none'
                     value={this.state.description}
                 />
 
@@ -96,6 +97,7 @@ export default class HelpForm extends Component {
                     <TextInput
                         style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                         onChangeText={(location) =>this.setState({location})}
+                        autoCapitalize = 'none'
                         value={this.state.text}
                     />
 

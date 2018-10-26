@@ -15,9 +15,6 @@ export default class MyIssues extends Component {
         super(props);
         this.state = {
             feedList: [
-                {issueId: 123, title: "Need help in ceg", location: "Alwarpet, Chennai", color: "red", category: "Food", timestamp: "12/12/2017 8:30 AM", status: "Very Urgent", description:"We need food at the gandhi mandapam due to the floods"},
-                {issueId: 124, title: "Need help in ceg", location: "Alwarpet, Chennai", color: "yellow", category: "Food", timestamp: "12/12/2017 8:30 AM", status: "Urgent", description:"We need food at the gandhi mandapam due to the floods"},
-                {issueId: 143, title: "Need help in ceg", location: "Guindy", color: "red", category: "red", timestamp: "12/12/2017 8:30 AM", status: "Urgent", description:"We need food at the gandhi mandapam due to the floods"}
             ]
 
         };
@@ -61,17 +58,17 @@ export default class MyIssues extends Component {
                 <CardItem>
                     <Left>
                         <Body>
-                        <Text style={{fontSize: 20}}>{this.state.feedList[0].title}</Text>
-                        <Text note>{this.state.feedList[0].category}</Text>
-                        <Text note>{this.state.feedList[0].timestamp}</Text>
+                        <Text style={{fontSize: 20}}>{item.probTitle}</Text>
+                        <Text note>{item.probType}</Text>
+                        <Text note>{item.time}</Text>
                         </Body>
                     </Left>
-                    <Thumbnail source={{uri: 'https://cdn3.iconfinder.com/data/icons/medical-and-heathcare/512/medical_healthcare_medecine_2-512.png'}}/>
+                    <Thumbnail source={{uri: 'https://png.pngtree.com/svg/20161124/flood_and_water_logging_972327.png'}}/>
                 </CardItem>
                 <CardItem>
                     <Body>
                     <Text style={{fontSize:15}}>
-                        {this.state.feedList[0].description}
+                        {item.probDesc}
                     </Text>
                     </Body>
                 </CardItem>
@@ -79,7 +76,7 @@ export default class MyIssues extends Component {
                     <Left>
                         <Button transparent textStyle={{color: '#87838B'}}>
                             <Ionicons name="md-compass" size={25}/>
-                            <Text style={{marginLeft: 2}}>{this.state.feedList[0].location}</Text>
+                            <Text style={{marginLeft: 2}}>{item.location}</Text>
                         </Button>
                         <Button transparent textStyle={{color: '#87838B'}} onPress={() => this.closeIssue(item._id) }>
                             <Ionicons name="md-close" size={25}/>
